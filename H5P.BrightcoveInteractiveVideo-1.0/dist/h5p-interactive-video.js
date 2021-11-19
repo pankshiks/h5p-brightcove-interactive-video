@@ -3749,6 +3749,7 @@
             }).appendTo(m)),
             !n && p($) && v.attr("tabindex", "0"),
             void 0 !== e.editor && y.disableAutoPlay && y.disableAutoPlay();
+            h.children().children().css({ background: s.backgroundColor, color: s.VisualtextColor });
           var l = n ? D(v) : v;
           y.attach(l),
             V(l),
