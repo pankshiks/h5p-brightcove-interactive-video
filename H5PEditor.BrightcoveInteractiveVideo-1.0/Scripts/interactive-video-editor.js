@@ -910,7 +910,7 @@ H5PEditor.widgets.interactiveVideo = H5PEditor.BrightcoveInteractiveVideo =
       if (
         ["H5P.Text", "H5P.Image", "H5P.Link", "H5P.Table"].indexOf(type) === -1
       ) {
-        hideFields(interactionFields, ["visuals"]);
+        // hideFields(interactionFields, ["visuals"]);
       }
       if (type === "H5P.Summary") {
         var adaptivityFields = findField("adaptivity", interactionFields);
