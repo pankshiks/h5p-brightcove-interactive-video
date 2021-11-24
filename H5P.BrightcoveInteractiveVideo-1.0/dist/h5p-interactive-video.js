@@ -554,7 +554,8 @@
             void 0 !== t.override.showBookmarksmenuOnLoad &&
             t.override.showBookmarksmenuOnLoad),
           (s.preventSkipping = t.override.preventSkipping || !1),
-          (s.deactivateSound = t.override.deactivateSound || !1)),
+          (s.deactivateSound = t.override.deactivateSound || !1),
+          (s.attachcustomcss = t.override.attachcustomcss || !1)),
         (s.l10n = k.extend(
           {
             interaction: "Interaction",
@@ -605,6 +606,21 @@
         (s.menuitems = []),
         (s.lastState = H5P.Video.ENDED),
         (s.justVideo = !1);
+        // console.log("s.attachcustomcss", s.attachcustomcss);
+        if (s.attachcustomcss != "undefined") {
+          var css = s.attachcustomcss,
+            head = document.head || document.getElementsByTagName("head")[0],
+            style = document.createElement("style");
+
+          head.appendChild(style);
+          style.type = "text/css";
+          if (style.styleSheet) {
+            // This is required for IE8 and below.
+            style.styleSheet.cssText = css;
+          } else {
+            style.appendChild(document.createTextNode(css));
+          }
+        }
       var a = navigator.userAgent.match(/(iPhone|iPod) OS (\d*)_/i);
       null !== a && 3 === a.length && (s.justVideo = a[2] < 10),
         (o =
@@ -3749,7 +3765,7 @@
             }).appendTo(m)),
             !n && p($) && v.attr("tabindex", "0"),
             void 0 !== e.editor && y.disableAutoPlay && y.disableAutoPlay();
-            h.children().children().css({ background: s.backgroundColor, color: s.VisualtextColor });
+            // h.children().children().css({ background: s.backgroundColor, color: s.VisualtextColor });
           var l = n ? D(v) : v;
           y.attach(l),
             V(l),
@@ -3765,6 +3781,73 @@
             "function" == typeof y.setActivityStarted &&
               "function" == typeof y.getScore &&
               y.setActivityStarted();
+              // console.log("$ type", $);
+              // if ("H5P.MultiChoice" === $ || "H5P.Text" === $ || "H5P.Blanks" == $ || "H5P.TrueFalse" == $) {
+              if ("H5P.Text" != $ || "H5P.Link" != $ || "H5P.Image" != $ || H5P.IVHotspot != $) {
+                l.css({
+                  background: s.backgroundColor,
+                  color: s.VisualtextColor,
+                });
+                // console.log(
+                //   "l>>",
+                //   l
+                //     .children(".h5p-question-content.h5p-check")
+                //     .children("ul.h5p-answers")
+                //     .children("li.h5p-answer")
+                // );
+                // console.log("l",l.children(".h5p-question-visible").children("button"));
+                if (
+                  l.children(".h5p-question-visible").children("button")
+                    .length != 0
+                ) {
+                  l.children(".h5p-question-visible").children("button").css({
+                    background: s.Submitbgcolor,
+                    color: s.Submittextcolor,
+                  });
+                }
+                if (
+                  l
+                    .children(".h5p-question-content")
+                    .children("ul.h5p-answers")
+                    .children("li.h5p-answer")
+                    .children(".h5p-alternative-container").length != 0
+                ) {
+                  l.children(".h5p-question-content")
+                    .children("ul.h5p-answers")
+                    .children("li.h5p-answer")
+                    .children(".h5p-alternative-container")
+                    .css({
+                      background: s.backgroundColor,
+                      color: s.VisualtextColor,
+                    });
+                }
+
+                if ("H5P.GoToQuestion" == $) {
+                  l.children(".h5p-gotoquestion-wrapper").css({
+                    background: s.backgroundColor,
+                  });
+                  l.children(".h5p-gotoquestion-wrapper")
+                    .children(".h5p-gotoquestion-text")
+                    .css({
+                      background: s.backgroundColor,
+                      color: s.VisualtextColor,
+                    });
+                  l.children(".h5p-gotoquestion-wrapper")
+                    .children(".h5p-gotoquestion-choices")
+                    .css({
+                      background: s.backgroundColor,
+                      color: s.VisualtextColor,
+                    });
+                }
+                // console.log("h child child",h.children().children());
+              }
+              if ("H5P.Link" === $) {
+                // console.log("hereee>>>>", l.children());
+                l.children().css({
+                  background: s.backgroundColor,
+                  color: s.VisualtextColor,
+                });
+              }
         },
         j = function () {
           var n,

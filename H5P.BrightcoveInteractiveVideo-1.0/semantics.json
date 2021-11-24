@@ -472,7 +472,7 @@
                       "type": "text",
                       "label": "Text color",
                       "widget": "colorSelector",
-                      "default": "rgb(255, 255, 255)",
+                      "default": "rgb(67, 67, 67)",
                       "spectrum": {
                         "showInput": true,
                         "showAlpha": true,
@@ -650,7 +650,7 @@
                       "type": "text",
                       "label": "Submit text color",
                       "widget": "colorSelector",
-                      "default": "rgb(255, 255, 255)",
+                      "default": "rgb(67, 67, 67)",
                       "spectrum": {
                         "showInput": true,
                         "showAlpha": true,
@@ -997,6 +997,18 @@
         "label": "Deactivate sound",
         "importance": "low",
         "description": "Enabling this option will deactivate the video's sound and prevent it from being switched on."
+      },
+      {
+        "name": "attachedcssfile",
+        "type": "file",
+        "label": "Attach css file here",
+        "disableCopyright": true
+      },
+      {
+        "name": "attachcustomcss",
+        "type": "text",
+        "widget":"textarea",
+        "label": "Input Custom Css"
       }
     ]
   },

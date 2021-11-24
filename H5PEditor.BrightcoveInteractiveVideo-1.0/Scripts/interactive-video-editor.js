@@ -907,10 +907,16 @@ H5PEditor.widgets.interactiveVideo = H5PEditor.BrightcoveInteractiveVideo =
       if (type !== "H5P.Text" && type !== "H5P.Image") {
         hideFields(interactionFields, ["goto"]);
       }
+      if (type == "H5P.Text" || type == "H5P.Image") {
+        var visualsFields = findField("visuals", interactionFields);
+        hideFields(visualsFields.fields, ["Submitbgcolor"]);
+        hideFields(visualsFields.fields, ["Submittextcolor"]);
+      }
       if (
-        ["H5P.Text", "H5P.Image", "H5P.Link", "H5P.Table"].indexOf(type) === -1
+        // ["H5P.Text", "H5P.Image", "H5P.Link", "H5P.Table"].indexOf(type) === -1
+        type == "H5P.IVHotspot" || type == "H5P.Questionnaire" 
       ) {
-        // hideFields(interactionFields, ["visuals"]);
+        hideFields(interactionFields, ["visuals"]);
       }
       if (type === "H5P.Summary") {
         var adaptivityFields = findField("adaptivity", interactionFields);
