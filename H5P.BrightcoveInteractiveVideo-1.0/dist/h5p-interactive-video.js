@@ -1,3 +1,4 @@
+var unca = [];
 !(function (t) {
   function e(o) {
     if (n[o]) return n[o].exports;
@@ -606,21 +607,21 @@
         (s.menuitems = []),
         (s.lastState = H5P.Video.ENDED),
         (s.justVideo = !1);
-        // console.log("s.attachcustomcss", s.attachcustomcss);
-        if (s.attachcustomcss != "undefined") {
-          var css = s.attachcustomcss,
-            head = document.head || document.getElementsByTagName("head")[0],
-            style = document.createElement("style");
+      // console.log("s.attachcustomcss", s.attachcustomcss);
+      if (s.attachcustomcss != "undefined") {
+        var css = s.attachcustomcss,
+          head = document.head || document.getElementsByTagName("head")[0],
+          style = document.createElement("style");
 
-          head.appendChild(style);
-          style.type = "text/css";
-          if (style.styleSheet) {
-            // This is required for IE8 and below.
-            style.styleSheet.cssText = css;
-          } else {
-            style.appendChild(document.createTextNode(css));
-          }
+        head.appendChild(style);
+        style.type = "text/css";
+        if (style.styleSheet) {
+          // This is required for IE8 and below.
+          style.styleSheet.cssText = css;
+        } else {
+          style.appendChild(document.createTextNode(css));
         }
+      }
       var a = navigator.userAgent.match(/(iPhone|iPod) OS (\d*)_/i);
       null !== a && 3 === a.length && (s.justVideo = a[2] < 10),
         (o =
@@ -3459,12 +3460,29 @@
                 .click(function () {
                   e.editor.hideInteractionTitle();
                 });
+              
           var i = s(a(t.label));
           t.label && i && (f = M(t.label, "h5p-interaction").appendTo(h)),
             o.trigger("display", h),
             setTimeout(function () {
               h && h.removeClass("h5p-hidden");
             }, 0);
+            var cs_s = t.visuals;
+            // Append css here
+            h.children(".h5p-interaction-button").css({
+              "background-color": cs_s.iconbackgroundColor,
+            });
+
+            h.children("div.h5p-interaction-label.h5p-interaction").css({
+              "background-color": cs_s.backgroundColor,
+            });
+
+            h.children("div.h5p-interaction-label.h5p-interaction")
+              .children(".h5p-interaction-label-text")
+              .css({
+                color: cs_s.VisualtextColor,
+              });
+            // console.log("s", cs_s);
         },
         M = function (t) {
           var e =
@@ -3727,6 +3745,7 @@
           var n = o.isGotoClickable(),
             i = z(),
             s = A();
+
           if (
             ((h = r("<div/>", {
               "aria-label": e.l10n.interaction,
@@ -3745,6 +3764,25 @@
             "H5P.IVHotspot" !== $)
           ) {
             h.css("background", s.backgroundColor);
+            // Create a unique class for the UI Enhancement updates.
+            if (h[0].classList[0] == 'h5p-interaction') {
+              var isid = h[0].id;
+              // console.log("isid", isid.empty());
+              if (!isid) {
+                var unique_class = h[0].classList[2];
+                unca.push(unique_class);
+                var count = [];
+                unca.forEach(function (i) {
+                  count[i] = (count[i] || 0) + 1;
+                });
+                var unc = unique_class+"-"+count[unique_class];
+                // console.log("H0",h);
+                if (unc) {
+                  h.attr('id',unc);
+                }
+                // console.log("check id", h[0].id);
+              }
+            }
             var a = s.backgroundColor.split(",");
             if (a[3]) {
               0 === parseFloat(a[3].replace(")", "")) &&
@@ -3765,7 +3803,7 @@
             }).appendTo(m)),
             !n && p($) && v.attr("tabindex", "0"),
             void 0 !== e.editor && y.disableAutoPlay && y.disableAutoPlay();
-            // h.children().children().css({ background: s.backgroundColor, color: s.VisualtextColor });
+          // h.children().children().css({ background: s.backgroundColor, color: s.VisualtextColor });
           var l = n ? D(v) : v;
           y.attach(l),
             V(l),
@@ -3781,73 +3819,105 @@
             "function" == typeof y.setActivityStarted &&
               "function" == typeof y.getScore &&
               y.setActivityStarted();
-              // console.log("$ type", $);
-              // if ("H5P.MultiChoice" === $ || "H5P.Text" === $ || "H5P.Blanks" == $ || "H5P.TrueFalse" == $) {
-              if ("H5P.Text" != $ || "H5P.Link" != $ || "H5P.Image" != $ || H5P.IVHotspot != $) {
-                l.css({
-                  background: s.backgroundColor,
-                  color: s.VisualtextColor,
-                });
-                // console.log(
-                //   "l>>",
-                //   l
-                //     .children(".h5p-question-content.h5p-check")
-                //     .children("ul.h5p-answers")
-                //     .children("li.h5p-answer")
-                // );
-                // console.log("l",l.children(".h5p-question-visible").children("button"));
-                if (
-                  l.children(".h5p-question-visible").children("button")
-                    .length != 0
-                ) {
-                  l.children(".h5p-question-visible").children("button").css({
+          // console.log("Log type type", $);
+
+          if (
+            "H5P.Text" != $ ||
+            "H5P.Link" != $ ||
+            "H5P.Image" != $ ||
+            "H5P.IVHotspot" != $
+          ) {
+            // Main wrapper css updates
+            l.css({
+              background: s.backgroundColor,
+              color: s.VisualtextColor,
+            });
+
+            // Css input for the buttons.
+            if (
+              l.children(".h5p-question-buttons").children("button").length != 0
+            ) {
+              l.children(".h5p-question-buttons").children("button").css({
+                background: s.Submitbgcolor,
+                color: s.Submittextcolor,
+              });
+            }
+
+            // Css input for the button with change behaviour.
+            if (l.children(".h5p-question-buttons").length != 0) {
+              l.children(".h5p-question-buttons").bind(
+                "DOMSubtreeModified",
+                function () {
+                  l.children(".h5p-question-buttons").children("button").css({
                     background: s.Submitbgcolor,
                     color: s.Submittextcolor,
                   });
                 }
-                if (
-                  l
-                    .children(".h5p-question-content")
-                    .children("ul.h5p-answers")
-                    .children("li.h5p-answer")
-                    .children(".h5p-alternative-container").length != 0
-                ) {
-                  l.children(".h5p-question-content")
-                    .children("ul.h5p-answers")
-                    .children("li.h5p-answer")
-                    .children(".h5p-alternative-container")
-                    .css({
-                      background: s.backgroundColor,
-                      color: s.VisualtextColor,
-                    });
-                }
+              );
+            }
 
-                if ("H5P.GoToQuestion" == $) {
-                  l.children(".h5p-gotoquestion-wrapper").css({
-                    background: s.backgroundColor,
-                  });
-                  l.children(".h5p-gotoquestion-wrapper")
-                    .children(".h5p-gotoquestion-text")
-                    .css({
-                      background: s.backgroundColor,
-                      color: s.VisualtextColor,
-                    });
-                  l.children(".h5p-gotoquestion-wrapper")
-                    .children(".h5p-gotoquestion-choices")
-                    .css({
-                      background: s.backgroundColor,
-                      color: s.VisualtextColor,
-                    });
-                }
-                // console.log("h child child",h.children().children());
-              }
-              if ("H5P.Link" === $) {
-                // console.log("hereee>>>>", l.children());
-                l.children().css({
+            // Css update for the question content.
+            if (
+              l
+                .children(".h5p-question-content")
+                .children("ul.h5p-answers")
+                .children("li.h5p-answer")
+                .children(".h5p-alternative-container").length != 0
+            ) {
+              l.children(".h5p-question-content")
+                .children("ul.h5p-answers")
+                .children("li.h5p-answer")
+                .children(".h5p-alternative-container")
+                .css({
                   background: s.backgroundColor,
                   color: s.VisualtextColor,
                 });
+            }
+
+            // Css update for go to question H5p activity.
+            if ("H5P.GoToQuestion" == $) {
+              l.children(".h5p-gotoquestion-wrapper").css({
+                background: s.backgroundColor,
+              });
+              l.children(".h5p-gotoquestion-wrapper")
+                .children(".h5p-gotoquestion-text")
+                .css({
+                  background: s.backgroundColor,
+                  color: s.VisualtextColor,
+                });
+              l.children(".h5p-gotoquestion-wrapper")
+                .children(".h5p-gotoquestion-choices")
+                .css({
+                  background: s.backgroundColor,
+                  color: s.VisualtextColor,
+                });
+            }
+          }
+          if ("H5P.Link" === $) {
+            l.children().css({
+              background: s.backgroundColor,
+              color: s.VisualtextColor,
+            });
+             // unc color
+            if (unc) {
+              // console.log(unc);
+              var custom_css = "#" + unc + " .h5p-link:after {color:" + s.VisualtextColor + " !important}";
+              // console.log("custom_css", custom_css);
+              var css = custom_css,
+                head =
+                  document.head || document.getElementsByTagName("head")[0],
+                style = document.createElement("style");
+
+              head.appendChild(style);
+              style.type = "text/css";
+              if (style.styleSheet) {
+                // This is required for IE8 and below.
+                style.styleSheet.cssText = css;
+              } else {
+                style.appendChild(document.createTextNode(css));
               }
+            }
+          }
         },
         j = function () {
           var n,
@@ -4200,7 +4270,9 @@
                 i.setLabel(
                   T +
                     " " +
-                    H5P.BrightcoveInteractiveVideo.humanizeTime(t.duration.from) +
+                    H5P.BrightcoveInteractiveVideo.humanizeTime(
+                      t.duration.from
+                    ) +
                     " - " +
                     H5P.BrightcoveInteractiveVideo.humanizeTime(t.duration.to)
                 ),

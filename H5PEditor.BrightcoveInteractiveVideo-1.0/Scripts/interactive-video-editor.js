@@ -895,7 +895,27 @@ H5PEditor.widgets.interactiveVideo = H5PEditor.BrightcoveInteractiveVideo =
 
       // Hide some fields for some interaction types
       var type = interaction.getLibraryName();
-
+      // console.log("ASDASDASD");
+      // console.log("testme");
+      // document
+      //   .getElementsByClassName("h5p-image-radio-button")[0]
+      //   .addEventListener("click", function () {
+      //     alert("hello");
+      //     //validation code to see State field is mandatory.
+      //   });
+      // document.getElementsByClassName(".h5p-image-radio-button.button").click(function (e) {
+      //   console.log("testme");
+      //   // 1 === e.which && W({ data: t.goto.time });
+      // });
+      // $(".h5p-image-radio-button.button").click(function (e) {
+      //   console.log("testme");
+      //   $(this)
+      //     .parent()
+      //     .find(
+      //       "fieldset.field-name-visuals .content .field-name-Submitbgcolor"
+      //     )
+      //     .hide();
+      // });
       if (
         AdvanceInteractiveVideoEditor.XAPI_QUESTION_TYPES.indexOf(type) === -1
       ) {
@@ -914,7 +934,8 @@ H5PEditor.widgets.interactiveVideo = H5PEditor.BrightcoveInteractiveVideo =
       }
       if (
         // ["H5P.Text", "H5P.Image", "H5P.Link", "H5P.Table"].indexOf(type) === -1
-        type == "H5P.IVHotspot" || type == "H5P.Questionnaire" 
+        type == "H5P.IVHotspot" ||
+        type == "H5P.Questionnaire"
       ) {
         hideFields(interactionFields, ["visuals"]);
       }
@@ -1054,20 +1075,91 @@ H5PEditor.widgets.interactiveVideo = H5PEditor.BrightcoveInteractiveVideo =
       }
 
       if (interactionFields.visuals.$group) {
+        // $(
+        //   ".h5p-image-radio-button-group input:radio",
+        //   interaction.$form
+        // ).change(function () {
+        //   interactionFields.visuals.$group.toggleClass(
+        //     "hide",
+        //     $(this).val() !== "poster"
+        //   );
+        // });
+        // var current_option = $(
+        //   ".h5p-image-radio-button-group input:radio",
+        //   interaction.$form
+        // ).val();
+        // console.log("current_option", current_option);
         $(
           ".h5p-image-radio-button-group input:radio",
           interaction.$form
         ).change(function () {
-          interactionFields.visuals.$group.toggleClass(
-            "hide",
-            $(this).val() !== "poster"
-          );
-        });
+          
+          var button = $(this).val();
+          // console.log("data>>>", $(this).val());
 
-        interactionFields.visuals.$group.toggleClass(
-          "hide",
-          parameters.displayType !== "poster"
-        );
+          if (button == "poster") {
+            interactionFields.visuals.$group
+              .children("div.content")
+              .children("div.field.field-name-Submitbgcolor.text.colorSelector")
+              .removeClass("hide");
+            interactionFields.visuals.$group
+              .children("div.content")
+              .children(
+                "div.field.field-name-Submittextcolor.text.colorSelector"
+              )
+              .removeClass("hide");
+            interactionFields.visuals.$group
+              .children("div.content")
+              .children("div.field-name-boxShadow")
+              .removeClass("hide");
+            interactionFields.visuals.$group
+              .children("div.content")
+              .children("div.field-name-iconbackgroundColor")
+              .addClass("hide");
+          }
+          if (button == 'button') {
+            interactionFields.visuals.$group
+              .children("div.content")
+              .children("div.field.field-name-Submitbgcolor.text.colorSelector")
+              .addClass("hide");
+            interactionFields.visuals.$group
+              .children("div.content")
+              .children(
+                "div.field.field-name-Submittextcolor.text.colorSelector"
+              )
+              .addClass("hide");
+            interactionFields.visuals.$group
+              .children("div.content")
+              .children("div.field-name-boxShadow")
+              .addClass("hide");
+            interactionFields.visuals.$group
+              .children("div.content")
+              .children("div.field-name-iconbackgroundColor")
+              .removeClass("hide");
+          }
+        });
+        
+        // old code
+        interactionFields.visuals.$group
+          .children("div.content")
+          .children("div.field.field-name-Submitbgcolor.text.colorSelector")
+          // .children("div.field.field-name-Submitbgcolor.text.colorSelector")
+          // .children("div.field-name-boxShadow")
+          .toggleClass("hide", parameters.displayType !== "poster");
+
+      interactionFields.visuals.$group
+        .children("div.content")
+        // .children("div.field.field-name-Submitbgcolor.text.colorSelector")
+        .children("div.field.field-name-Submittextcolor.text.colorSelector")
+        // .children("div.field-name-boxShadow")
+        .toggleClass("hide", parameters.displayType !== "poster");
+
+      interactionFields.visuals.$group
+        .children("div.content")
+        // .children("div.field.field-name-Submitbgcolor.text.colorSelector")
+        // .children("div.field.field-name-Submitbgcolor.text.colorSelector")
+        .children("div.field-name-boxShadow")
+        .toggleClass("hide", parameters.displayType !== "poster");
       }
 
       // Create require completion instances for content types with scores.
