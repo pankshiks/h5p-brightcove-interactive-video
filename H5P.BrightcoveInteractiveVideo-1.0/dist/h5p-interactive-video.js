@@ -556,7 +556,8 @@ var unca = [];
             t.override.showBookmarksmenuOnLoad),
           (s.preventSkipping = t.override.preventSkipping || !1),
           (s.deactivateSound = t.override.deactivateSound || !1),
-          (s.attachcustomcss = t.override.attachcustomcss || !1)),
+          (s.attachcustomcss = t.override.attachcustomcss || !1),
+          (s.hideh5pactionoption = t.override.hideh5pactionoption || !1)),
         (s.l10n = k.extend(
           {
             interaction: "Interaction",
@@ -610,6 +611,21 @@ var unca = [];
       // console.log("s.attachcustomcss", s.attachcustomcss);
       if (s.attachcustomcss != "undefined") {
         var css = s.attachcustomcss,
+          head = document.head || document.getElementsByTagName("head")[0],
+          style = document.createElement("style");
+
+        head.appendChild(style);
+        style.type = "text/css";
+        if (style.styleSheet) {
+          // This is required for IE8 and below.
+          style.styleSheet.cssText = css;
+        } else {
+          style.appendChild(document.createTextNode(css));
+        }
+      }
+      console.log("s.hideh5pactionoption",s.hideh5pactionoption);
+      if (s.hideh5pactionoption == true) {
+        var css = "ul.h5p-actions {display: none;}",
           head = document.head || document.getElementsByTagName("head")[0],
           style = document.createElement("style");
 
@@ -3482,7 +3498,7 @@ var unca = [];
               .css({
                 color: cs_s.VisualtextColor,
               });
-            // console.log("s", cs_s);
+            // console.log("s", h.children("div.h5p-interaction-label.h5p-interaction"));
         },
         M = function (t) {
           var e =
@@ -3589,6 +3605,77 @@ var unca = [];
             u = r(s ? "<a>" : "<div>", {
               class: "h5p-dialog-interaction h5p-frame",
             });
+            
+            if (t.visuals ) {
+              // get visuals object
+              var css = t.visuals;
+              
+              i.children(".h5p-dialog").css({
+                "background": css.backgroundColor,
+              });
+
+              u.css({
+                background: css.backgroundColor,
+                color: css.VisualtextColor,
+              });
+              
+              setTimeout(() => {
+                u.children(".h5p-question-buttons").children("button").css({
+                  background: css.Submitbgcolor,
+                  color: css.Submittextcolor
+                });
+
+                u.children(".h5p-question-content")
+                  .children("ul.h5p-answers")
+                  .children("li.h5p-answer")
+                  .children("div.h5p-alternative-container")
+                  .css({
+                    background: css.backgroundColor
+                  });
+              }, 200);
+              
+              setTimeout(() => {
+                console.log("<<u>>", u[0].classList[3]);
+                u.counter = u.counter === undefined ? 1 : u.counter + 1;
+                var h5pentype = u[0].classList[3];
+                var buttondomid = h5pentype + "-button-" + u.counter;
+                console.log("buttondomid", buttondomid);
+                console.log(i.find(".h5p-dialog").attr("id", buttondomid));
+                
+                if (buttondomid) {
+                  var css = t.visuals;
+                  console.log("css", css.Submitbgcolor);
+                  var custom_css =
+                    "#" +
+                    buttondomid +
+                    " .h5p-dialog-inner .h5p-dialog-interaction .h5p-question-buttons button { background: " +
+                    css.Submitbgcolor +
+                    " ; color:" +
+                    css.Submittextcolor +
+                    " ; } .h5p-interactive-video #" +
+                    buttondomid +
+                    " .h5p-dialog-close:before{color:" +
+                    css.VisualtextColor +
+                    " !important} #" +
+                    buttondomid +
+                    " .h5p-answer[role='checkbox'] .h5p-alternative-container:before{color:"+css.VisualtextColor+"}";
+                  var css = custom_css,
+                    head =
+                      document.head || document.getElementsByTagName("head")[0],
+                    style = document.createElement("style");
+
+                  head.appendChild(style);
+                  style.type = "text/css";
+                  if (style.styleSheet) {
+                    // This is required for IE8 and below.
+                    style.styleSheet.cssText = css;
+                  } else {
+                    style.appendChild(document.createTextNode(css));
+                  }
+                }
+              }, 200);
+
+            }
           !s && p($) && u.attr("tabindex", "0"),
             void 0 !== e.editor
               ? u.attr("tabindex", -1)
@@ -3600,7 +3687,7 @@ var unca = [];
                   .filter(":visible");
                 q(e, t);
               });
-          var d = s ? D(u) : u;
+          var d = s ? D(u) : u;          
           if (
             (y.attach(d),
             V(d),
@@ -3763,7 +3850,9 @@ var unca = [];
             })),
             "H5P.IVHotspot" !== $)
           ) {
-            h.css("background", s.backgroundColor);
+            if ($ !== "H5P.image"){
+              h.css("background", s.backgroundColor);
+            }
             // Create a unique class for the UI Enhancement updates.
             if (h[0].classList[0] == 'h5p-interaction') {
               var isid = h[0].id;
@@ -3891,6 +3980,25 @@ var unca = [];
                   background: s.backgroundColor,
                   color: s.VisualtextColor,
                 });
+            }
+            console.log("type",$);
+            if ($ == "H5P.MultiChoice") {
+              if (unc) {
+                var custom_css ="#" +unc +" li.h5p-answer .h5p-alternative-container:before {color:" +s.VisualtextColor +" !important}";
+                var css = custom_css,
+                  head =
+                    document.head || document.getElementsByTagName("head")[0],
+                  style = document.createElement("style");
+
+                head.appendChild(style);
+                style.type = "text/css";
+                if (style.styleSheet) {
+                  // This is required for IE8 and below.
+                  style.styleSheet.cssText = css;
+                } else {
+                  style.appendChild(document.createTextNode(css));
+                }
+              }
             }
           }
           if ("H5P.Link" === $) {

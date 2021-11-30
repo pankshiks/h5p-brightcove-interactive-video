@@ -1088,10 +1088,11 @@
         "description": "Enabling this option will deactivate the video's sound and prevent it from being switched on."
       },
       {
-        "name": "attachedcssfile",
-        "type": "file",
-        "label": "Attach css file here",
-        "disableCopyright": true
+        "name": "hideh5pactionoption",
+        "type": "boolean",
+        "default": false,
+        "label": "Hide H5P Bottom Action Bar",
+        "importance": "low"
       },
       {
         "name": "attachcustomcss",

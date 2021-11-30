@@ -931,6 +931,7 @@ H5PEditor.widgets.interactiveVideo = H5PEditor.BrightcoveInteractiveVideo =
         var visualsFields = findField("visuals", interactionFields);
         hideFields(visualsFields.fields, ["Submitbgcolor"]);
         hideFields(visualsFields.fields, ["Submittextcolor"]);
+        hideFields(visualsFields.fields, ["iconbackgroundColor"]);
       }
       if (
         // ["H5P.Text", "H5P.Image", "H5P.Link", "H5P.Table"].indexOf(type) === -1
@@ -1074,93 +1075,93 @@ H5PEditor.widgets.interactiveVideo = H5PEditor.BrightcoveInteractiveVideo =
         }
       }
 
-      if (interactionFields.visuals.$group) {
-        // $(
-        //   ".h5p-image-radio-button-group input:radio",
-        //   interaction.$form
-        // ).change(function () {
-        //   interactionFields.visuals.$group.toggleClass(
-        //     "hide",
-        //     $(this).val() !== "poster"
-        //   );
-        // });
-        // var current_option = $(
-        //   ".h5p-image-radio-button-group input:radio",
-        //   interaction.$form
-        // ).val();
-        // console.log("current_option", current_option);
-        $(
-          ".h5p-image-radio-button-group input:radio",
-          interaction.$form
-        ).change(function () {
+      // if (interactionFields.visuals.$group) {
+      //   // $(
+      //   //   ".h5p-image-radio-button-group input:radio",
+      //   //   interaction.$form
+      //   // ).change(function () {
+      //   //   interactionFields.visuals.$group.toggleClass(
+      //   //     "hide",
+      //   //     $(this).val() !== "poster"
+      //   //   );
+      //   // });
+      //   // var current_option = $(
+      //   //   ".h5p-image-radio-button-group input:radio",
+      //   //   interaction.$form
+      //   // ).val();
+      //   // console.log("current_option", current_option);
+      //   $(
+      //     ".h5p-image-radio-button-group input:radio",
+      //     interaction.$form
+      //   ).change(function () {
           
-          var button = $(this).val();
-          // console.log("data>>>", $(this).val());
+      //     var button = $(this).val();
+      //     // console.log("data>>>", $(this).val());
 
-          if (button == "poster") {
-            interactionFields.visuals.$group
-              .children("div.content")
-              .children("div.field.field-name-Submitbgcolor.text.colorSelector")
-              .removeClass("hide");
-            interactionFields.visuals.$group
-              .children("div.content")
-              .children(
-                "div.field.field-name-Submittextcolor.text.colorSelector"
-              )
-              .removeClass("hide");
-            interactionFields.visuals.$group
-              .children("div.content")
-              .children("div.field-name-boxShadow")
-              .removeClass("hide");
-            interactionFields.visuals.$group
-              .children("div.content")
-              .children("div.field-name-iconbackgroundColor")
-              .addClass("hide");
-          }
-          if (button == 'button') {
-            interactionFields.visuals.$group
-              .children("div.content")
-              .children("div.field.field-name-Submitbgcolor.text.colorSelector")
-              .addClass("hide");
-            interactionFields.visuals.$group
-              .children("div.content")
-              .children(
-                "div.field.field-name-Submittextcolor.text.colorSelector"
-              )
-              .addClass("hide");
-            interactionFields.visuals.$group
-              .children("div.content")
-              .children("div.field-name-boxShadow")
-              .addClass("hide");
-            interactionFields.visuals.$group
-              .children("div.content")
-              .children("div.field-name-iconbackgroundColor")
-              .removeClass("hide");
-          }
-        });
+      //     if (button == "poster") {
+      //       interactionFields.visuals.$group
+      //         .children("div.content")
+      //         .children("div.field.field-name-Submitbgcolor.text.colorSelector")
+      //         .removeClass("hide");
+      //       interactionFields.visuals.$group
+      //         .children("div.content")
+      //         .children(
+      //           "div.field.field-name-Submittextcolor.text.colorSelector"
+      //         )
+      //         .removeClass("hide");
+      //       interactionFields.visuals.$group
+      //         .children("div.content")
+      //         .children("div.field-name-boxShadow")
+      //         .removeClass("hide");
+      //       interactionFields.visuals.$group
+      //         .children("div.content")
+      //         .children("div.field-name-iconbackgroundColor")
+      //         .addClass("hide");
+      //     }
+      //     if (button == 'button') {
+      //       interactionFields.visuals.$group
+      //         .children("div.content")
+      //         .children("div.field.field-name-Submitbgcolor.text.colorSelector")
+      //         .addClass("hide");
+      //       interactionFields.visuals.$group
+      //         .children("div.content")
+      //         .children(
+      //           "div.field.field-name-Submittextcolor.text.colorSelector"
+      //         )
+      //         .addClass("hide");
+      //       interactionFields.visuals.$group
+      //         .children("div.content")
+      //         .children("div.field-name-boxShadow")
+      //         .addClass("hide");
+      //       interactionFields.visuals.$group
+      //         .children("div.content")
+      //         .children("div.field-name-iconbackgroundColor")
+      //         .removeClass("hide");
+      //     }
+      //   });
         
-        // old code
-        interactionFields.visuals.$group
-          .children("div.content")
-          .children("div.field.field-name-Submitbgcolor.text.colorSelector")
-          // .children("div.field.field-name-Submitbgcolor.text.colorSelector")
-          // .children("div.field-name-boxShadow")
-          .toggleClass("hide", parameters.displayType !== "poster");
+      //   // old code
+      //   interactionFields.visuals.$group
+      //     .children("div.content")
+      //     .children("div.field.field-name-Submitbgcolor.text.colorSelector")
+      //     // .children("div.field.field-name-Submitbgcolor.text.colorSelector")
+      //     // .children("div.field-name-boxShadow")
+      //     .toggleClass("hide", parameters.displayType !== "poster");
 
-      interactionFields.visuals.$group
-        .children("div.content")
-        // .children("div.field.field-name-Submitbgcolor.text.colorSelector")
-        .children("div.field.field-name-Submittextcolor.text.colorSelector")
-        // .children("div.field-name-boxShadow")
-        .toggleClass("hide", parameters.displayType !== "poster");
+      // interactionFields.visuals.$group
+      //   .children("div.content")
+      //   // .children("div.field.field-name-Submitbgcolor.text.colorSelector")
+      //   .children("div.field.field-name-Submittextcolor.text.colorSelector")
+      //   // .children("div.field-name-boxShadow")
+      //   .toggleClass("hide", parameters.displayType !== "poster");
 
-      interactionFields.visuals.$group
-        .children("div.content")
-        // .children("div.field.field-name-Submitbgcolor.text.colorSelector")
-        // .children("div.field.field-name-Submitbgcolor.text.colorSelector")
-        .children("div.field-name-boxShadow")
-        .toggleClass("hide", parameters.displayType !== "poster");
-      }
+      // interactionFields.visuals.$group
+      //   .children("div.content")
+      //   // .children("div.field.field-name-Submitbgcolor.text.colorSelector")
+      //   // .children("div.field.field-name-Submitbgcolor.text.colorSelector")
+      //   .children("div.field-name-boxShadow")
+      //   .toggleClass("hide", parameters.displayType !== "poster");
+      // }
 
       // Create require completion instances for content types with scores.
       // Summary is filtered out because it can't be retried.
